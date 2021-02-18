@@ -1,4 +1,5 @@
-/* program to demonstrate creating and displaying linkedlist.............
+/*
+	Program to demonstrate Linked List.
 */
 
 #include<stdio.h>
@@ -6,54 +7,112 @@
 
 typedef struct node{
     int data;
-    struct node* link;
-}Node;
+    struct node* next;
+}node;
 
-Node* createList(int n); //creates a linked list.
-void displayList(Node*); // displays the data in the list.
+node* start = NULL;
+void create_list(int); // starts by creating a list.
+void display_list(node*); // displays the contents in the list.
+void insert_begin(); // inserts data in the beginning.
 
 int main(){
-    int n = 0;
-    Node* head = NULL;
-    printf("How many Nodes?\n");
-    scanf("%d", &n);
-    head = createList(n);
-    displayList(head);
-    return 0;
+    int choice, number;
+    printf("\t\tLinked List\n\n");
+    while(1){
+        printf("-------------------------------------------\n");
+        printf("1. Create List\n");
+        printf("2. Display Linked List\n");
+        printf("3. Insert a data at the begining of the link\n");
+        printf("4. Exit\n");
+        
+        printf("\nEnter you choice\n");
+        scanf("%d", &choice);
+        switch(choice){
+            case 1: printf("Enter the number of nodes\n");
+                    scanf("%d", &number);
+                    create_list(number);
+                    break;
+            case 2:
+                    display_list(start);
+                    break;
+            case 3: 
+                    insert_begin();
+                    break;
+            case 4:
+                    exit(0);
+                    break;
+            default : printf("Wrong choice, try again\n");
+                    break;
+        }
+    }
 }
 
-Node* createList(int n){
-    int i=0;
-    Node* head = NULL;
-    Node* temp = NULL;
-    Node* p = NULL;
-    //individual isolated node
+void create_list(int n){
+    int i = 0;
+    node* temp;
+    node* p;
+    
     while(i<n){
-        temp = (Node*)malloc(sizeof(Node));
-        printf("Enter data to the node - %d :\n", i+1);
+        temp = (node*)malloc(sizeof(node));
+        printf("Enter the data to the node : %d\n", i+1);
         scanf("%d", &(temp->data));
-        temp->link = NULL;
-        
-        if(head == NULL){
-            head = temp; //if list is empty, then make it as first node.
+        temp->next = NULL;
+        if(start == NULL){
+            start = temp;
         }
         else{
-            p = head;
-            while(p->link != NULL){
-                p = p->link;
+            p = start;
+            while(p->next!= NULL){
+                p = p->next;
             }
-            p->link = temp;
+            p->next = temp;
         }
         i++;
     }
-    return head;
 }
 
-
-void displayList(Node* head){
-    Node* p = head;
-    while(p!=NULL){
-        printf(" %d->", p->data);
-        p = p->link;
+void display_list(node* start){
+    node* p = start;
+    if(start == NULL){
+        printf("List is empty\n");
+        return;
+    }
+    else{
+        printf("\nThe elements in the list are : \n");
+        while(p!=NULL){
+            printf("%d->", p->data);
+            p = p->next;
+        }
+        printf("\n");
     }
 }
+
+void insert_begin(){
+    node* temp;
+    temp = (node*)malloc(sizeof(node));
+    if(temp == NULL){
+        printf("\n Out of memory \n");
+        return;
+    }
+    printf("Enter the data for the node\n");
+    scanf("%d", &(temp->data));
+    temp->next = NULL;
+    if(start == NULL){
+        start = temp;
+    }
+    else{
+        temp->next = start;
+        start = temp;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
